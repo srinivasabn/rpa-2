@@ -54,5 +54,23 @@ build data table-Subject(1)--dt
 for each-eamil
 google-cloud.uipath.com-orchestor-queue-create-email
 add queue item-email
-add data row-New Object(){CurrentGmailMessage.Subject()}
+add data row-New Object(){currentGmailMessage.Subject()}
 write csv-path-dt
+
+UNIQUE
+word application scope-path
+read text(word)--text
+one + outside
+assign-text,text.Replace(","," ").Replace("."," ")
+assign--arr-(string[])-text.split(" ")
+build data table-keep one col--dt
+for each-(outword)-arr
+assign--count(int)-0
+for each-(inword)-arr
+if- outword=inword
+  then-assign-count,count+1
+ouside of one for each
+if-count>1
+  else-add data row-{outword},dt
+out of +
+write csv-path,dt
