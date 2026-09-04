@@ -1,1 +1,58 @@
+WEB SCRAP
+use application browser
+type into - "shirts"
+click
+extract table data-dt
+write csv
 
+TRY-CATCH
+try-catch
+2 input dialog-name,age
+build data table-name(string),age(int32)
+add data row-New Object(){name,Cint(age)}
+write csv
+message box
+catch-message box
+run file
+
+INVOICE IMAGE
+send hotkey-win+r
+type into-invoice path
+send hotkey-enter
+3get ocr text-sub1,name,tax
+  tessaract ocr-sub1,name,tax
+build data table- sub1,name,tax--dt
+add data row-{sub1,name,tax}
+write csv
+
+GOOGLE FORM(EXCEL)
+use application browser
+use excel file-excel path
+for each excel row-CurrentRow,Excel.Sheet("Sheet1")
+3 read cell value-CurrentRow.ByField("name")-v1
+3 type into-map-v1,v2,v3
+2 click-submit,submit another response
+
+RESUME ATTACHMENT
+get email list-connect,sent,Subject(bcc),"Resume"--list
+log message-"no of emails"+list.Count.ToString()
+for each=list
+download email attachment-CurrentGmailMessage-dest-folder path
+before(send email with sub-"Resume")
+
+GOOGLE FORM(PDF)
+get pdf text-pdf path--text
+assign--ele(arr of t),text.split(" ")
+use browser application
+3 type into-ele(0)
+2 click-submit,another response
+
+queue
+google workplace scope-connect
+get mail messages-"in:inbox"--email
+build data table-Subject(1)--dt
+for each-eamil
+google-cloud.uipath.com-orchestor-queue-create-email
+add queue item-email
+add data row-New Object(){CurrentGmailMessage.Subject()}
+write csv-path-dt
